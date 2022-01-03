@@ -38,4 +38,5 @@ include_directories(${ANTLR_SampleGrammarParser_OUTPUT_DIR})
 add_executable(cool main.cpp
                ${ANTLR_SampleGrammarLexer_CXX_OUTPUTS}
                ${ANTLR_SampleGrammarParser_CXX_OUTPUTS})
-target_link_libraries(cool antlr4_static)
+
+target_link_libraries(cool antlr4_static stdc++fs)

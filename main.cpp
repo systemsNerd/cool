@@ -11,6 +11,8 @@
 //
 
 #include <iostream>
+#include <experimental/filesystem>
+// #include <filesystem>
 
 #include "antlr4-runtime.h"
 #include "CoolLexer.h"
@@ -19,20 +21,37 @@
 using namespace antlrcpptest;
 using namespace antlr4;
 
-int main(int , const char **) {
-  ANTLRInputStream input;
+static void parse(const std::string& filename)
+{
+
+  std::ifstream t(filename);
+  std::stringstream buffer;
+  buffer << t.rdbuf();
+
+  ANTLRInputStream input(buffer);
   CoolLexer lexer(&input);
   CommonTokenStream tokens(&lexer);
 
   tokens.fill();
-  for (auto token : tokens.getTokens()) {
+  for (auto token : tokens.getTokens())
+  {
     std::cout << token->toString() << std::endl;
   }
 
   CoolParser parser(&tokens);
-  tree::ParseTree* tree = parser.program();
+  tree::ParseTree *tree = parser.program();
 
-  std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
+  std::cout << tree->toStringTree(&parser) << std::endl;
+}
 
+int main(int , const char **) {
+
+  auto path = "../tests/syntactic/";
+  for (const auto &entry : std::experimental::filesystem::directory_iterator(path)) {
+    std::cout << entry.path() << std::endl;
+    parse(entry.path());
+  }
+    
   return 0;
+
 }
