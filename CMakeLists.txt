@@ -16,6 +16,7 @@ include(ExternalAntlr4Cpp)
 # add antrl4cpp artifacts to project environment
 include_directories(${ANTLR4_INCLUDE_DIRS})
 
+
 # set variable pointing to the antlr tool that supports C++
 # this is not required if the jar file can be found under PATH environment
 set(ANTLR_EXECUTABLE /usr/local/lib/antlr-4.9.2-complete.jar)
@@ -25,7 +26,8 @@ find_package(ANTLR REQUIRED)
 # Call macro to add lexer and grammar to your build dependencies.
 antlr_target(SampleGrammarLexer CoolLexer.g4 LEXER
              PACKAGE antlrcpptest)
-		 antlr_target(SampleGrammarParser CoolParser.g4 PARSER
+
+antlr_target(SampleGrammarParser CoolParser.g4 PARSER VISITOR
              PACKAGE antlrcpptest
              DEPENDS_ANTLR SampleGrammarLexer
              COMPILE_FLAGS -lib ${ANTLR_SampleGrammarLexer_OUTPUT_DIR})
